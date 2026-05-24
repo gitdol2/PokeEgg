@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokeEgg Inventory</title>
+    <link href="https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="top-tabs">
+        <div class="tab" data-tab="profile" onclick="switchTab('profile')">프로필</div>
+        <div class="tab" data-tab="gacha" onclick="switchTab('gacha')">뽑기</div>
+        <div class="tab active" data-tab="inventory" onclick="switchTab('inventory')">인벤토리</div>
+        <div class="tab" data-tab="combine" onclick="switchTab('combine')">조합</div>
+        <div class="tab" data-tab="auction" onclick="switchTab('auction')">경매장</div>
+        <div class="tab" data-tab="archive" onclick="switchTab('archive')">도감</div>
+        <div class="tab" data-tab="leaderboard" onclick="switchTab('leaderboard')">랭킹</div>
+    </div>
+
+    <div id="game-container">
+        
+        <div id="inventory-view" class="view-content active">
+            
+            <div id="left-panel">
+                <div class="name-plate">
+                    <span id="pokemon-name"></span>
+                    <span id="pokemon-no">No.---</span>
+                </div>
+                
+                <div class="portrait-box">
+                    <img id="pokemon-sprite" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="sprite">
+                    <div id="loading"></div>
+                </div>
+                
+                <div class="info-plate">
+                    <div class="info-header">
+                        <span id="pokemon-count">보유: 0개</span>
+                        <div id="type-badges" class="type-container"></div>
+                    </div>
+                    <div>등급: <span id="pokemon-tier">-</span></div>
+                    <div>가격: <span id="pokemon-price">0</span>pt</div>
+                    <div>서식지: <span id="pokemon-habitat">-</span></div>
+                    <div id="pokemon-stats" class="stats-grid"></div>
+                </div>
+            </div>
+
+            <div id="right-panel">
+                
+                <div id="currency-bar">
+                    <div class="currency-item">
+                        <img id="silver-coin-icon" alt="silver">
+                        <span id="silver-coin-display" class="currency-value">0</span>
+                    </div>
+                    <div class="currency-item">
+                        <img id="gold-coin-icon" alt="gold">
+                        <span id="gold-coin-display" class="currency-value">0</span>
+                    </div>
+                    <div class="currency-item">
+                        <img id="pokemon-ball-icon" alt="ball">
+                        <span id="points-display" class="currency-value">0 pt</span>
+                    </div>
+                    <div class="currency-item" style="margin-left: auto;">
+                        보유 포켓몬: <span id="pokemon-count-display" class="currency-value">0</span>
+                    </div>
+                </div>
+
+                <div id="filter-bar">
+                    <button class="filter-btn">세대 ▾</button>
+                    <button class="filter-btn">등급 ▾</button>
+                    <button class="filter-btn">타입 ▾</button>
+                    <button class="filter-btn">서식지 ▾</button>
+                    <button id="sort-btn" onclick="toggleSort()">
+                        <span class="sort-arrow">▲</span> 도감번호
+                    </button>
+                </div>
+
+                <div id="grid-wrapper" class="grid-wrapper">
+                    <div id="inventory-grid"></div>
+                </div>
+
+                <div id="action-bar">
+                    <div id="normal-btns" class="action-group">
+                        <button class="dp-btn pink" onclick="toggleSelectMode(true)">선택</button>
+                        <button id="btn-evolve" class="dp-btn green" disabled>진화</button>
+                        <button id="btn-combine" class="dp-btn" disabled>조합</button>
+                        <button id="btn-convert" class="dp-btn" disabled>포인트 변환</button>
+                        <button id="btn-auction" class="dp-btn" disabled>경매장 등록</button>
+                    </div>
+                    <div id="select-btns" class="action-group" style="display: none;">
+                        <button class="dp-btn" onclick="toggleSelectAll()">전체 선택</button>
+                        <button id="btn-convert-multi" class="dp-btn" disabled>포인트 변환</button>
+                        <button class="dp-btn pink" onclick="toggleSelectMode(false)">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="gacha-view" class="view-content empty-view">
+            뽑기 화면 (준비중)
+        </div>
+
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
