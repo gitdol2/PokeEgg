@@ -8,8 +8,8 @@
     
     <style>
         :root {
-            --dp-bg: #88D8C0; 
-            --dp-panel: #70C0A8; 
+            --dp-bg: #80D989; 
+            --dp-panel: #70B86F; 
             --dp-box-bg: #E8E8E8; 
             --dp-border: #505050; 
             --dp-btn-main: #68A0B8; 
@@ -19,13 +19,13 @@
         * {
             box-sizing: border-box;
             user-select: none;
+            font-family: 'Galmuri9', sans-serif !important; 
         }
 
         body {
             margin: 0;
             padding: 0;
             background-color: #222;
-            font-family: 'Galmuri9', sans-serif;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -33,6 +33,7 @@
             height: 100vh;
             overflow: hidden;
             image-rendering: pixelated;
+            font-size: 13px; 
         }
 
         /* --- 상단 탭 바 --- */
@@ -54,50 +55,56 @@
             border: 2px solid var(--dp-border);
             border-bottom: none; 
             border-radius: 6px 6px 0 0;
-            color: #333;
             cursor: pointer;
-            font-size: 14px;
-            background-color: #D8D8D8; 
+            font-size: 13px; 
             box-shadow: inset -2px 0 0 rgba(0,0,0,0.15), inset 2px 2px 0 rgba(255,255,255,0.4);
-            text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+            
+            /* 일관성 확보: 흰색 글씨와 어두운 그림자 강제 적용 */
+            color: white !important;
+            text-shadow: 1px 1px 0 #555 !important;
         }
 
-        .tab[data-tab="profile"] { background-color: #F87878; color: #333; }
-        .tab[data-tab="gacha"] { background-color: #78C8F8; }
-        .tab[data-tab="inventory"] { background-color: var(--dp-bg); }
-        .tab[data-tab="combine"] { background-color: #98D8D8; }
-        .tab[data-tab="auction"] { background-color: #B8A0F8; color: #333; }
-        .tab[data-tab="archive"] { background-color: #F8D070; }
-        .tab[data-tab="leaderboard"] { background-color: #F8A0C8; }
+        /* 흰색 글씨가 명확히 보이도록 탭 배경색 명도 조정 */
+        .tab[data-tab="profile"] { background-color: #D86060; }
+        .tab[data-tab="gacha"] { background-color: #50A8D8; }
+        .tab[data-tab="inventory"] { background-color: #80D989; }
+        .tab[data-tab="combine"] { background-color: #70B0B0; }
+        .tab[data-tab="auction"] { background-color: #9880D8; }
+        .tab[data-tab="archive"] { background-color: #D8B050; }
+        .tab[data-tab="leaderboard"] { background-color: #D880A8; }
 
         .tab:not(.active):hover { filter: brightness(1.1); }
 
         .tab.active {
             padding-top: 10px;
-            font-weight: bold;
-            color: #000;
+            font-weight: normal; 
             box-shadow: inset -2px 0 0 rgba(0,0,0,0.05), inset 2px 2px 0 rgba(255,255,255,0.5);
             margin-bottom: -2px;
             padding-bottom: 8px;
             z-index: 12;
-            text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.7);
+            
+            color: white !important;
+            text-shadow: 1px 1px 0 #555 !important;
         }
 
         #loading {
             position: absolute;
-            top: 50%;
+            top: 0px;
             right: 8px;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.95);
-            color: #E84858;
-            font-size: 12px;
-            font-weight: bold;
-            padding: 4px 8px;
-            border: 2px solid #E84858;
-            border-radius: 4px;
+            width: 28px;
+            height: 28px;
+            border: 3px solid rgba(100, 100, 100, 0.3);
+            border-top: 3px solid #333;
+            border-radius: 50%;
             display: none;
-            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
             pointer-events: none;
+            animation: spin-loader 0.8s linear infinite;
+            z-index: 20;
+        }
+
+        @keyframes spin-loader {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* --- 메인 게임 컨테이너 --- */
@@ -112,28 +119,25 @@
             box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
         }
 
-        /* 뷰 전환 클래스 (겹침 문제 해결의 핵심!) */
         .view-content {
-            display: none !important; /* 강제 숨김 처리 */
+            display: none !important;
             width: 100%;
             height: 100%;
             gap: 15px;
         }
         .view-content.active { 
-            display: flex !important; /* 활성화된 탭만 플렉스로 보여짐 */
+            display: flex !important;
         }
 
-        /* 빈 화면 가이드 (뽑기 탭 등) */
         .empty-view {
-            /* display: flex; <--- 이 녀석이 레이아웃을 망친 범인이었음 (삭제완료) */
             justify-content: center;
             align-items: center;
             background-color: #70C0A8;
             border: 2px solid var(--dp-border);
             border-radius: 8px;
             color: white;
-            font-size: 24px;
-            text-shadow: 2px 2px 0 #555;
+            font-size: 16px; 
+            text-shadow: 1px 1px 0 #555;
         }
 
         /* --- 왼쪽 패널 (상세 정보) --- */
@@ -146,35 +150,40 @@
         }
 
         .name-plate {
-            background-color: #F8E8A0;
+            /* 포켓몬 이름 플레이스홀더 배경 */
+            background-color: #F9C451; 
             border: 2px solid var(--dp-border);
             border-radius: 8px;
             padding: 5px 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #333;
             min-height: 40px;
             line-height: 1.2;
+            
+            /* 이름판 내부 일관성 확보 */
+            color: white !important;
+            text-shadow: 1px 1px 0 #555 !important;
         }
 
-        #pokemon-name { font-size: 20px; font-weight: bold; }
-        #pokemon-no { font-size: 16px; font-weight: normal; }
+        #pokemon-name { font-size: 14px; font-weight: normal; } 
+        #pokemon-no { font-size: 13px; font-weight: normal; }
 
         .portrait-box {
-            background-color: #A0CFEC; /* DP-style blue checker base */
+            background-color: #3894D8; 
             border: 2px solid var(--dp-border);
             height: 190px;
             display: flex;
             justify-content: center;
             align-items: center;
             border-radius: 8px;
-            /* Blue checkerboard: #A0CFEC and #68A0B8 alternating */
-            background-image:
-                linear-gradient(90deg, #A0CFEC 50%, #68A0B8 50%),
-                linear-gradient(#A0CFEC 50%, #68A0B8 50%);
-            background-size: 16px 16px;
-            background-position: 0 0, 8px 8px;
+            background-image: conic-gradient(
+                #48A4E0 25%, 
+                transparent 25% 50%, 
+                #48A4E0 50% 75%, 
+                transparent 75%
+            );
+            background-size: 16px 16px; 
             box-shadow: inset 2px 2px 0 rgba(0,0,0,0.12);
         }
 
@@ -183,7 +192,7 @@
             height: 140px;
             object-fit: contain;
             object-position: center center;
-            background: transparent; /* ensure checker shows through transparent pixels */
+            background: transparent; 
             filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.3));
             image-rendering: pixelated;
         }
@@ -236,7 +245,7 @@
             border: 1px solid rgba(255,255,255,0.2);
         }
         .stat-name { color: #FFD848; }
-        .stat-val { font-weight: bold; letter-spacing: 1px; }
+        .stat-val { font-weight: normal; letter-spacing: 1px; }
 
         /* --- 오른쪽 패널 --- */
         #right-panel {
@@ -248,6 +257,38 @@
         }
 
         /* 필터 바 */
+        #currency-bar {
+            display: flex;
+            gap: 12px;
+            background-color: #78B0C0;
+            border: 2px solid var(--dp-border);
+            border-radius: 8px;
+            padding: 6px 8px;
+            box-shadow: inset 1px 1px 0 rgba(255,255,255,0.3);
+            align-items: center;
+            color: white;
+            font-size: 12px;
+            text-shadow: 1px 1px 0 #555;
+            margin-bottom: 6px;
+        }
+
+        .currency-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .currency-item img {
+            width: 20px;
+            height: 20px;
+            image-rendering: pixelated;
+        }
+
+        .currency-value {
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
         #filter-bar {
             display: flex;
             gap: 6px;
@@ -259,25 +300,39 @@
         }
         
         .filter-btn {
-            background-color: #E8E8E8;
             border: 2px solid var(--dp-border);
             border-radius: 4px;
-            font-family: 'Galmuri9', sans-serif;
-            font-size: 12px;
+            font-size: 13px; 
             padding: 4px 8px;
             cursor: pointer;
-            color: #333;
             box-shadow: inset -1px -1px 0 rgba(0,0,0,0.2);
+            
+            /* 일관성 확보: 필터 버튼도 하단 액션 버튼과 완벽히 동일한 스타일 처리 */
+            background-color: var(--dp-btn-main);
+            color: white !important;
+            text-shadow: 1px 1px 0 #555 !important;
         }
 
-        .filter-btn:hover { background-color: #FFF; }
+        .filter-btn:hover { filter: brightness(1.1); }
         .filter-btn:active { box-shadow: inset 1px 1px 0 rgba(0,0,0,0.2); }
-        #sort-btn { margin-left: auto; background-color: #FFD848; }
-        .sort-arrow { font-size: 10px; display: inline-block; vertical-align: middle; } 
+        
+        /* 도감번호 정렬 버튼 */
+        #sort-btn { 
+            margin-left: auto;
+            background-color: var(--dp-btn-main);
+            border: 2px solid var(--dp-border);
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            box-shadow: inset -1px -1px 0 rgba(0,0,0,0.2);
+            color: white !important;
+            text-shadow: 1px 1px 0 #555 !important;
+        }
+        .sort-arrow { font-size: 8px; display: inline-block; vertical-align: middle; line-height: 1; margin-right: 2px; transform: translateY(-1px); } 
 
         .grid-wrapper {
             flex-grow: 1;
-            background-color: #BAE8B4;
+            background-color: #DDEFF8; 
             border: 2px solid var(--dp-border);
             border-radius: 8px;
             overflow-y: scroll; 
@@ -285,11 +340,13 @@
             padding: 6px; 
             min-height: 0;
             box-shadow: inset 2px 2px 0 rgba(0,0,0,0.1);
-            
-            background-image:
-                linear-gradient(180deg, rgba(255,255,255,0.55) 0 12px, transparent 12px 24px),
-                linear-gradient(180deg, rgba(214, 243, 209, 0.75) 0 12px, rgba(214, 243, 209, 0.75) 24px, transparent 24px 28px);
-            background-size: auto 24px;
+            background-image: conic-gradient(
+                #C6E2F5 25%, 
+                transparent 25% 50%, 
+                #C6E2F5 50% 75%, 
+                transparent 75%
+            );
+            background-size: 16px 16px; 
         }
 
         #inventory-grid {
@@ -318,8 +375,8 @@
         }
 
         .grid-cell:not(.empty):hover, .grid-cell.active, .grid-cell.selected {
-            background-color: #FFFFFF;
-            border: 2px solid #E87020; 
+            background-color: rgba(56,148,216,0.5); 
+            border: 2px solid #48A4E0; 
             z-index: 2;
         }
 
@@ -344,6 +401,7 @@
             border-top: 1px solid white;
             border-left: 1px solid white;
             z-index: 3;
+            text-shadow: none !important;
         }
 
         .select-checkbox {
@@ -366,14 +424,14 @@
         .select-mode .grid-cell:not(.empty) .select-checkbox { display: flex; }
         
         .grid-cell.selected .select-checkbox {
-            color: #E87020; 
-            border-color: #E87020;
+            color: #48A4E0; 
+            border-color: #48A4E0;
         }
         
         .select-checkbox::after { 
             content: '✔'; 
             font-size: 12px;
-            font-weight: bold;
+            font-weight: normal;
         }
 
         /* --- 하단 액션 버튼 --- */
@@ -397,8 +455,7 @@
             border: 2px solid var(--dp-border);
             border-radius: 4px;
             color: white;
-            font-family: 'Galmuri9', sans-serif;
-            font-size: 14px; 
+            font-size: 13px; 
             padding: 6px 12px;
             cursor: pointer;
             text-shadow: 1px 1px 0 #555;
@@ -414,7 +471,7 @@
             color: #CCC;
             border-color: #777;
             cursor: not-allowed;
-            text-shadow: none;
+            text-shadow: none !important;
             box-shadow: inset -2px -2px 0 rgba(0,0,0,0.1);
         }
         
@@ -447,7 +504,7 @@
         <div class="tab" data-tab="auction" onclick="switchTab('auction')">경매장</div>
         <div class="tab" data-tab="archive" onclick="switchTab('archive')">아카이브</div>
         <div class="tab" data-tab="leaderboard" onclick="switchTab('leaderboard')">리더보드</div>
-        <div id="loading">데이터 로딩 중...</div>
+        <div id="loading"></div>
     </div>
 
     <div id="game-container">
@@ -469,11 +526,11 @@
 
                 <div class="info-plate">
                     <div class="info-header">
-                        <span id="pokemon-count" style="color: #FFF; font-weight: bold;">보유: 0개</span>
+                        <span id="pokemon-count" style="color: #FFF; font-size: 13px;">보유: 0개</span>
                         <div class="type-container" id="type-badges"></div>
                     </div>
                     <div class="info-header" style="border: none; padding-bottom: 0; padding-top: 4px;">
-                        <span style="color: #FFF; font-size: 13px;">등급: <span id="pokemon-tier" style="color: #FFF; font-weight:bold;">-</span></span>
+                        <span style="color: #FFF; font-size: 13px;">등급: <span id="pokemon-tier" style="color: #FFF;">-</span></span>
                         <span style="color: #FFF; font-size: 13px;">가격: <span id="pokemon-price" style="color: #F8A0C8;">0</span>pt</span>
                     </div>
                     <div class="info-header" style="border: none; padding-bottom: 0; padding-top: 2px;">
@@ -485,6 +542,24 @@
             </div>
 
             <div id="right-panel">
+                <div id="currency-bar">
+                    <div class="currency-item">
+                        <span class="currency-value" id="points-display">0 pt</span>
+                    </div>
+                    <div class="currency-item">
+                        <img id="silver-coin-icon" src="" alt="Silver Coin">
+                        <span class="currency-value" id="silver-coin-display">0</span>
+                    </div>
+                    <div class="currency-item">
+                        <img id="gold-coin-icon" src="" alt="Gold Coin">
+                        <span class="currency-value" id="gold-coin-display">0</span>
+                    </div>
+                    <div class="currency-item">
+                        <img id="pokemon-ball-icon" src="" alt="Pokemon">
+                        <span class="currency-value" id="pokemon-count-display">0</span>
+                    </div>
+                </div>
+
                 <div id="filter-bar">
                     <button class="filter-btn">세대 ▾</button>
                     <button class="filter-btn">등급 ▾</button>
@@ -609,6 +684,25 @@
             img.src = url;
         }
 
+        // 재화 표시 초기화
+        function initCurrencyBar() {
+            const silverCoinIcon = document.getElementById('silver-coin-icon');
+            const goldCoinIcon = document.getElementById('gold-coin-icon');
+            const pokemonBallIcon = document.getElementById('pokemon-ball-icon');
+
+            // PokéAPI 아이콘 로드
+            silverCoinIcon.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/potion.png';
+            goldCoinIcon.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/hyper-potion.png';
+            pokemonBallIcon.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png';
+
+            // 초기 값 설정
+            document.getElementById('points-display').innerText = '0 pt';
+            document.getElementById('silver-coin-display').innerText = '0';
+            document.getElementById('gold-coin-display').innerText = '0';
+            // 전체 포켓몬 수 표시
+            document.getElementById('pokemon-count-display').innerText = inventoryData.length;
+        }
+
         const inventoryData = [];
         for (let i = 1; i <= 151; i++) {
             const count = Math.floor(Math.random() * 15);
@@ -665,7 +759,10 @@
             document.getElementById('pokemon-habitat').innerText = `-`;
             document.getElementById('type-badges').innerHTML = '';
             document.getElementById('pokemon-stats').innerHTML = '';
-            document.getElementById('pokemon-sprite').src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='; 
+            document.getElementById('pokemon-sprite').src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+            
+            // 재화 바 리셋 - 전체 포켓몬 수 유지
+            document.getElementById('pokemon-count-display').innerText = inventoryData.length;
             
             updateNormalButtons();
         }
@@ -807,6 +904,9 @@
             document.getElementById('pokemon-no').innerText = `No.${String(item.id).padStart(3, '0')}`;
             document.getElementById('pokemon-count').innerText = `보유: ${item.count}개`;
             
+            // 재화 바 업데이트
+            document.getElementById('pokemon-count-display').innerText = item.count;
+            
             const tierInfo = getPokemonTierInfo(item.id);
             const tierEl = document.getElementById('pokemon-tier');
             tierEl.innerText = tierInfo.tier;
@@ -867,6 +967,7 @@
             }
         }
 
+        initCurrencyBar();
         renderGrid();
         clearLeftPanel(); 
 
