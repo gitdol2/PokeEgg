@@ -1,4 +1,875 @@
 <!DOCTYPE html>
-<html>
-    <ref></ref>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포켓에그 (PokeEgg) - DP 스타일 인벤토리</title>
+    <link href="https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --dp-bg: #88D8C0; 
+            --dp-panel: #70C0A8; 
+            --dp-box-bg: #E8E8E8; 
+            --dp-border: #505050; 
+            --dp-btn-main: #68A0B8; 
+            --dp-btn-pink: #F098A8; 
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #222;
+            font-family: 'Galmuri9', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            image-rendering: pixelated;
+        }
+
+        /* --- 상단 탭 바 --- */
+        #top-tabs {
+            width: 800px;
+            display: flex;
+            gap: 2px;
+            padding-left: 0;
+            justify-content: flex-start;
+            align-items: flex-end;
+            position: relative;
+            z-index: 10;
+        }
+
+        .tab {
+            flex: 0 0 auto;
+            padding: 8px 12px 6px 12px;
+            text-align: center;
+            border: 2px solid var(--dp-border);
+            border-bottom: none; 
+            border-radius: 6px 6px 0 0;
+            color: #333;
+            cursor: pointer;
+            font-size: 14px;
+            background-color: #D8D8D8; 
+            box-shadow: inset -2px 0 0 rgba(0,0,0,0.15), inset 2px 2px 0 rgba(255,255,255,0.4);
+            text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        .tab[data-tab="profile"] { background-color: #F87878; color: #333; }
+        .tab[data-tab="gacha"] { background-color: #78C8F8; }
+        .tab[data-tab="inventory"] { background-color: var(--dp-bg); }
+        .tab[data-tab="combine"] { background-color: #98D8D8; }
+        .tab[data-tab="auction"] { background-color: #B8A0F8; color: #333; }
+        .tab[data-tab="archive"] { background-color: #F8D070; }
+        .tab[data-tab="leaderboard"] { background-color: #F8A0C8; }
+
+        .tab:not(.active):hover { filter: brightness(1.1); }
+
+        .tab.active {
+            padding-top: 10px;
+            font-weight: bold;
+            color: #000;
+            box-shadow: inset -2px 0 0 rgba(0,0,0,0.05), inset 2px 2px 0 rgba(255,255,255,0.5);
+            margin-bottom: -2px;
+            padding-bottom: 8px;
+            z-index: 12;
+            text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.7);
+        }
+
+        #loading {
+            position: absolute;
+            top: 50%;
+            right: 8px;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            color: #E84858;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border: 2px solid #E84858;
+            border-radius: 4px;
+            display: none;
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+            pointer-events: none;
+        }
+
+        /* --- 메인 게임 컨테이너 --- */
+        #game-container {
+            width: 800px;
+            height: 540px;
+            background-color: var(--dp-bg);
+            border: 2px solid var(--dp-border);
+            border-radius: 0 8px 8px 8px;
+            position: relative;
+            padding: 12px;
+            box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+        }
+
+        /* 뷰 전환 클래스 (겹침 문제 해결의 핵심!) */
+        .view-content {
+            display: none !important; /* 강제 숨김 처리 */
+            width: 100%;
+            height: 100%;
+            gap: 15px;
+        }
+        .view-content.active { 
+            display: flex !important; /* 활성화된 탭만 플렉스로 보여짐 */
+        }
+
+        /* 빈 화면 가이드 (뽑기 탭 등) */
+        .empty-view {
+            /* display: flex; <--- 이 녀석이 레이아웃을 망친 범인이었음 (삭제완료) */
+            justify-content: center;
+            align-items: center;
+            background-color: #70C0A8;
+            border: 2px solid var(--dp-border);
+            border-radius: 8px;
+            color: white;
+            font-size: 24px;
+            text-shadow: 2px 2px 0 #555;
+        }
+
+        /* --- 왼쪽 패널 (상세 정보) --- */
+        #left-panel {
+            width: 260px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .name-plate {
+            background-color: #F8E8A0;
+            border: 2px solid var(--dp-border);
+            border-radius: 8px;
+            padding: 5px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #333;
+            min-height: 40px;
+            line-height: 1.2;
+        }
+
+        #pokemon-name { font-size: 20px; font-weight: bold; }
+        #pokemon-no { font-size: 16px; font-weight: normal; }
+
+        .portrait-box {
+            background-color: #A0CFEC; /* DP-style blue checker base */
+            border: 2px solid var(--dp-border);
+            height: 190px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            /* Blue checkerboard: #A0CFEC and #68A0B8 alternating */
+            background-image:
+                linear-gradient(90deg, #A0CFEC 50%, #68A0B8 50%),
+                linear-gradient(#A0CFEC 50%, #68A0B8 50%);
+            background-size: 16px 16px;
+            background-position: 0 0, 8px 8px;
+            box-shadow: inset 2px 2px 0 rgba(0,0,0,0.12);
+        }
+
+        #pokemon-sprite {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            object-position: center center;
+            background: transparent; /* ensure checker shows through transparent pixels */
+            filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.3));
+            image-rendering: pixelated;
+        }
+
+        .info-plate {
+            background-color: var(--dp-panel);
+            border: 2px solid var(--dp-border);
+            border-radius: 8px; 
+            padding: 8px 10px;
+            color: white;
+            text-shadow: 1px 1px 0 #555;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex-grow: 1; 
+        }
+        
+        .info-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            border-bottom: 2px solid rgba(255,255,255,0.4); 
+            padding-bottom: 6px;
+        }
+
+        .type-container { display: flex; gap: 4px; }
+        .type-badge {
+            border: 1px solid white;
+            border-radius: 4px;
+            padding: 2px 8px;
+            color: white;
+            font-size: 12px;
+            text-shadow: 1px 1px 0 #333;
+            box-shadow: 1px 1px 0 #555;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 10px;
+            font-size: 13px;
+            border-radius: 8px;
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(0,0,0,0.15);
+            padding: 3px 6px;
+            border-radius: 6px; 
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .stat-name { color: #FFD848; }
+        .stat-val { font-weight: bold; letter-spacing: 1px; }
+
+        /* --- 오른쪽 패널 --- */
+        #right-panel {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0; 
+        }
+
+        /* 필터 바 */
+        #filter-bar {
+            display: flex;
+            gap: 6px;
+            background-color: #78B0C0;
+            border: 2px solid var(--dp-border);
+            border-radius: 8px;
+            padding: 4px;
+            box-shadow: inset 1px 1px 0 rgba(255,255,255,0.3);
+        }
+        
+        .filter-btn {
+            background-color: #E8E8E8;
+            border: 2px solid var(--dp-border);
+            border-radius: 4px;
+            font-family: 'Galmuri9', sans-serif;
+            font-size: 12px;
+            padding: 4px 8px;
+            cursor: pointer;
+            color: #333;
+            box-shadow: inset -1px -1px 0 rgba(0,0,0,0.2);
+        }
+
+        .filter-btn:hover { background-color: #FFF; }
+        .filter-btn:active { box-shadow: inset 1px 1px 0 rgba(0,0,0,0.2); }
+        #sort-btn { margin-left: auto; background-color: #FFD848; }
+        .sort-arrow { font-size: 10px; display: inline-block; vertical-align: middle; } 
+
+        .grid-wrapper {
+            flex-grow: 1;
+            background-color: #BAE8B4;
+            border: 2px solid var(--dp-border);
+            border-radius: 8px;
+            overflow-y: scroll; 
+            overflow-x: hidden;
+            padding: 6px; 
+            min-height: 0;
+            box-shadow: inset 2px 2px 0 rgba(0,0,0,0.1);
+            
+            background-image:
+                linear-gradient(180deg, rgba(255,255,255,0.55) 0 12px, transparent 12px 24px),
+                linear-gradient(180deg, rgba(214, 243, 209, 0.75) 0 12px, rgba(214, 243, 209, 0.75) 24px, transparent 24px 28px);
+            background-size: auto 24px;
+        }
+
+        #inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-auto-rows: 54px;
+            gap: 4px;
+        }
+
+        .grid-cell {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            background-color: transparent;
+            border: 2px solid transparent; 
+            border-radius: 4px;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .grid-cell.empty {
+            border: 2px solid rgba(160, 176, 192, 0.4);
+            cursor: default;
+        }
+
+        .grid-cell:not(.empty):hover, .grid-cell.active, .grid-cell.selected {
+            background-color: #FFFFFF;
+            border: 2px solid #E87020; 
+            z-index: 2;
+        }
+
+        .grid-cell img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center center;
+            display: block;
+            image-rendering: pixelated;
+        }
+
+        .count-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #333;
+            color: white;
+            font-size: 10px;
+            padding: 1px 3px;
+            border-radius: 4px 0 0 0;
+            border-top: 1px solid white;
+            border-left: 1px solid white;
+            z-index: 3;
+        }
+
+        .select-checkbox {
+            display: none; 
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 16px;
+            height: 16px;
+            background-color: #FFF;
+            border: 2px solid #555;
+            border-radius: 3px;
+            z-index: 4;
+            color: transparent;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 2px;
+        }
+        
+        .select-mode .grid-cell:not(.empty) .select-checkbox { display: flex; }
+        
+        .grid-cell.selected .select-checkbox {
+            color: #E87020; 
+            border-color: #E87020;
+        }
+        
+        .select-checkbox::after { 
+            content: '✔'; 
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* --- 하단 액션 버튼 --- */
+        #action-bar {
+            display: flex;
+            flex-shrink: 0;
+            width: 100%;
+            padding-bottom: 2px;
+        }
+        
+        .action-group { 
+            display: flex; 
+            gap: 6px; 
+            width: 100%; 
+            justify-content: flex-end;
+            flex-wrap: wrap; 
+        }
+
+        .dp-btn {
+            background-color: var(--dp-btn-main);
+            border: 2px solid var(--dp-border);
+            border-radius: 4px;
+            color: white;
+            font-family: 'Galmuri9', sans-serif;
+            font-size: 14px; 
+            padding: 6px 12px;
+            cursor: pointer;
+            text-shadow: 1px 1px 0 #555;
+            box-shadow: inset -2px -2px 0 rgba(0,0,0,0.15);
+            white-space: nowrap;
+        }
+
+        .dp-btn:hover:not(:disabled) { filter: brightness(1.1); }
+        .dp-btn:active:not(:disabled) { padding: 7px 11px 5px 13px; box-shadow: inset 2px 2px 0 rgba(0,0,0,0.15); }
+        
+        .dp-btn:disabled {
+            background-color: #999;
+            color: #CCC;
+            border-color: #777;
+            cursor: not-allowed;
+            text-shadow: none;
+            box-shadow: inset -2px -2px 0 rgba(0,0,0,0.1);
+        }
+        
+        .dp-btn.pink { background-color: var(--dp-btn-pink); }
+        .dp-btn.green { background-color: #78C888; }
+
+        .grid-wrapper::-webkit-scrollbar { width: 16px; } 
+        .grid-wrapper::-webkit-scrollbar-track { 
+            background: #D8D8D8; 
+            border-left: 2px solid var(--dp-border); 
+            border-radius: 0 6px 6px 0;
+        }
+        .grid-wrapper::-webkit-scrollbar-thumb { 
+            background-color: #888; 
+            border: 4px solid transparent; 
+            border-left: 5px solid transparent; 
+            background-clip: padding-box; 
+            border-radius: 10px; 
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="top-tabs">
+        <div class="tab" data-tab="profile" onclick="switchTab('profile')">프로필</div>
+        <div class="tab" data-tab="gacha" onclick="switchTab('gacha')">뽑기</div>
+        <div class="tab active" data-tab="inventory" onclick="switchTab('inventory')">인벤토리</div>
+        <div class="tab" data-tab="combine" onclick="switchTab('combine')">조합</div>
+        <div class="tab" data-tab="auction" onclick="switchTab('auction')">경매장</div>
+        <div class="tab" data-tab="archive" onclick="switchTab('archive')">아카이브</div>
+        <div class="tab" data-tab="leaderboard" onclick="switchTab('leaderboard')">리더보드</div>
+        <div id="loading">데이터 로딩 중...</div>
+    </div>
+
+    <div id="game-container">
+        
+        <div class="view-content empty-view" id="gacha-view">
+            뽑기 화면 (준비중)
+        </div>
+
+        <div class="view-content active" id="inventory-view">
+            <div id="left-panel">
+                <div class="name-plate">
+                    <span id="pokemon-name"></span>
+                    <span id="pokemon-no">No.---</span>
+                </div>
+                
+                <div class="portrait-box">
+                    <img id="pokemon-sprite" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="포켓몬">
+                </div>
+
+                <div class="info-plate">
+                    <div class="info-header">
+                        <span id="pokemon-count" style="color: #FFF; font-weight: bold;">보유: 0개</span>
+                        <div class="type-container" id="type-badges"></div>
+                    </div>
+                    <div class="info-header" style="border: none; padding-bottom: 0; padding-top: 4px;">
+                        <span style="color: #FFF; font-size: 13px;">등급: <span id="pokemon-tier" style="color: #FFF; font-weight:bold;">-</span></span>
+                        <span style="color: #FFF; font-size: 13px;">가격: <span id="pokemon-price" style="color: #F8A0C8;">0</span>pt</span>
+                    </div>
+                    <div class="info-header" style="border: none; padding-bottom: 0; padding-top: 2px;">
+                        <span style="color: #FFF; font-size: 13px;">서식지: <span id="pokemon-habitat" style="color: #FFD848;">-</span></span>
+                    </div>
+                    <div class="stats-grid" id="pokemon-stats" style="margin-top: 4px;">
+                        </div>
+                </div>
+            </div>
+
+            <div id="right-panel">
+                <div id="filter-bar">
+                    <button class="filter-btn">세대 ▾</button>
+                    <button class="filter-btn">등급 ▾</button>
+                    <button class="filter-btn">타입 ▾</button>
+                    <button class="filter-btn">서식지 ▾</button>
+                    <button class="filter-btn" id="sort-btn" onclick="toggleSort()">
+                        <span class="sort-arrow">▲</span> 도감번호
+                    </button>
+                </div>
+
+                <div class="grid-wrapper" id="grid-wrapper">
+                    <div id="inventory-grid">
+                        </div>
+                </div>
+
+                <div id="action-bar">
+                    <div class="action-group" id="normal-btns">
+                        <button class="dp-btn" onclick="toggleSelectMode(true)">선택</button>
+                        <button class="dp-btn" id="btn-evolve" disabled>진화</button>
+                        <button class="dp-btn" id="btn-combine" disabled>조합</button>
+                        <button class="dp-btn" id="btn-convert" disabled>포인트 변환</button>
+                        <button class="dp-btn" id="btn-auction" disabled>경매장 등록</button>
+                    </div>
+                    
+                    <div class="action-group" id="select-btns" style="display: none;">
+                        <button class="dp-btn green" onclick="toggleSelectAll()">전체 선택</button>
+                        <button class="dp-btn" id="btn-convert-multi" disabled>포인트 변환</button>
+                        <button class="dp-btn pink" onclick="toggleSelectMode(false)">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const TYPE_COLORS = {
+            normal: '#A8A878', fire: '#F08030', water: '#6890F0', electric: '#F8D030',
+            grass: '#78C850', ice: '#98D8D8', fighting: '#C03028', poison: '#A040A0',
+            ground: '#E0C068', flying: '#A890F0', psychic: '#F85888', bug: '#A8B820',
+            rock: '#B8A038', ghost: '#705898', dragon: '#7038F8', dark: '#705848',
+            steel: '#B8B8D0', fairy: '#EE99AC'
+        };
+
+        const STAT_NAMES_KO = ['HP', '공격', '방어', '특공', '특방', '스피드'];
+        const HABITAT_KO = {
+            'cave': '동굴', 'forest': '숲', 'grassland': '초원', 'mountain': '산',
+            'rare': '희귀', 'rough-terrain': '거친 지형', 'sea': '바다', 'urban': '도시', 'waters-edge': '물가'
+        };
+
+        const NON_EVOLVING_GEN1 = [
+            3,6,9,12,15,18,20,22,24,26,28,31,34,36,38,40,45,47,49,53,55,57,59,62,65,68,71,73,76,78,80,83,85,87,89,91,94,97,99,
+            101,103,105,106,107,110,112,113,114,115,119,121,122,124,125,126,127,128,130,131,132,134,135,136,139,141,142,143,
+            144,145,146,149,150,151
+        ];
+
+        function getPokemonTierInfo(id) {
+            if ([144, 145, 146, 150, 151].includes(id)) return { tier: 'LEGENDARY', price: 1000, color: '#FFCE4B' }; 
+            if ([147, 148, 149, 143, 130, 131].includes(id)) return { tier: 'EPIC', price: 200, color: '#7038F8' }; 
+            if (id <= 9 || [25, 133].includes(id)) return { tier: 'RARE', price: 50, color: '#6890F0' }; 
+            return { tier: 'COMMON', price: 10, color: '#FFFFFF' }; 
+        }
+
+        function cropTransparentPadding(image) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const w = image.naturalWidth;
+            const h = image.naturalHeight;
+            canvas.width = w;
+            canvas.height = h;
+            ctx.drawImage(image, 0, 0, w, h);
+            const imageData = ctx.getImageData(0, 0, w, h).data;
+            let minX = w, minY = h, maxX = -1, maxY = -1;
+            for (let y = 0; y < h; y++) {
+                for (let x = 0; x < w; x++) {
+                    const alpha = imageData[(y * w + x) * 4 + 3];
+                    if (alpha > 20) {
+                        if (x < minX) minX = x;
+                        if (y < minY) minY = y;
+                        if (x > maxX) maxX = x;
+                        if (y > maxY) maxY = y;
+                    }
+                }
+            }
+            if (maxX < 0 || maxY < 0) {
+                return canvas.toDataURL();
+            }
+            const padding = 2;
+            minX = Math.max(0, minX - padding);
+            minY = Math.max(0, minY - padding);
+            maxX = Math.min(w - 1, maxX + padding);
+            maxY = Math.min(h - 1, maxY + padding);
+            const cropWidth = maxX - minX + 1;
+            const cropHeight = maxY - minY + 1;
+            const cropCanvas = document.createElement('canvas');
+            cropCanvas.width = cropWidth;
+            cropCanvas.height = cropHeight;
+            const cropCtx = cropCanvas.getContext('2d');
+            cropCtx.drawImage(canvas, minX, minY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+            return cropCanvas.toDataURL('image/png');
+        }
+
+        function loadCroppedSprite(img, url, fallbackUrl) {
+            img.crossOrigin = 'anonymous';
+            img.dataset.cropped = 'false';
+            img.onload = () => {
+                if (img.dataset.cropped === 'true') return;
+                try {
+                    const trimmed = cropTransparentPadding(img);
+                    img.dataset.cropped = 'true';
+                    img.src = trimmed;
+                } catch (error) {
+                    console.warn('Cropped sprite failed:', error);
+                }
+            };
+            img.onerror = () => {
+                if (!img.dataset.fallbacked) {
+                    img.dataset.fallbacked = 'true';
+                    img.src = fallbackUrl;
+                }
+            };
+            img.src = url;
+        }
+
+        const inventoryData = [];
+        for (let i = 1; i <= 151; i++) {
+            const count = Math.floor(Math.random() * 15);
+            if (count > 0) {
+                inventoryData.push({ id: i, count: count });
+            }
+        }
+
+        const grid = document.getElementById('inventory-grid');
+        let isSelectMode = false;
+        let isAllSelected = false; 
+        const selectedItems = new Set();
+        let currentSelectedId = null;
+        let currentSelectedCount = 0; 
+        let lastLeftPanelRequestId = 0;
+        
+        let isSortAsc = true;
+        function toggleSort() {
+            isSortAsc = !isSortAsc;
+            document.getElementById('sort-btn').innerHTML = `<span class="sort-arrow">${isSortAsc ? '▲' : '▼'}</span> 도감번호`;
+            inventoryData.reverse();
+            renderGrid();
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
+
+            if(tabName === 'inventory') {
+                document.getElementById('inventory-view').classList.add('active');
+                document.getElementById('gacha-view').classList.remove('active');
+                clearLeftPanel();
+                toggleSelectMode(false);
+            } else {
+                document.getElementById('inventory-view').classList.remove('active');
+                document.getElementById('gacha-view').classList.add('active');
+                document.getElementById('gacha-view').innerText = `${document.querySelector(`.tab[data-tab="${tabName}"]`).innerText} 화면 (준비중)`;
+            }
+        }
+
+        function clearLeftPanel() {
+            currentSelectedId = null;
+            currentSelectedCount = 0;
+            
+            document.querySelectorAll('.grid-cell').forEach(c => c.classList.remove('active', 'selected'));
+            selectedItems.clear();
+
+            document.getElementById('pokemon-no').innerText = `No.---`;
+            document.getElementById('pokemon-name').innerText = ``;
+            document.getElementById('pokemon-count').innerText = `보유: 0개`;
+            document.getElementById('pokemon-tier').innerText = `-`;
+            document.getElementById('pokemon-tier').style.color = `#FFF`;
+            document.getElementById('pokemon-price').innerText = `0`;
+            document.getElementById('pokemon-habitat').innerText = `-`;
+            document.getElementById('type-badges').innerHTML = '';
+            document.getElementById('pokemon-stats').innerHTML = '';
+            document.getElementById('pokemon-sprite').src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='; 
+            
+            updateNormalButtons();
+        }
+
+        function renderGrid() {
+            grid.innerHTML = '';
+            const totalCells = Math.max(40, Math.ceil(inventoryData.length / 8) * 8);
+
+            for (let i = 0; i < totalCells; i++) {
+                const cell = document.createElement('div');
+                
+                if (i < inventoryData.length) {
+                    const item = inventoryData[i];
+                    cell.className = 'grid-cell';
+                    cell.dataset.id = item.id; 
+                    
+                    const miniSpriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/${item.id}.png`;
+                    const fallbackSpriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-vii/icons/${item.id}.png`;
+                    
+                    cell.innerHTML = `
+                        <div class="select-checkbox"></div>
+                        <img alt="icon">
+                        <span class="count-badge">${item.count}</span>
+                    `;
+                    const spriteImg = cell.querySelector('img');
+                    loadCroppedSprite(spriteImg, miniSpriteUrl, fallbackSpriteUrl);
+                    
+                    if (isSelectMode && selectedItems.has(item.id)) {
+                        cell.classList.add('selected');
+                    } else if (!isSelectMode && currentSelectedId === item.id) {
+                        cell.classList.add('active');
+                    }
+                    
+                    cell.onclick = () => handleCellClick(item, cell);
+                } else {
+                    cell.className = 'grid-cell empty';
+                }
+                
+                grid.appendChild(cell);
+            }
+        }
+
+        function updateNormalButtons() {
+            const btnEvolve = document.getElementById('btn-evolve');
+            const btnCombine = document.getElementById('btn-combine');
+            const btnConvert = document.getElementById('btn-convert');
+            const btnAuction = document.getElementById('btn-auction');
+
+            if (currentSelectedCount === 0 || !currentSelectedId) {
+                btnEvolve.disabled = true;
+                btnCombine.disabled = true;
+                btnConvert.disabled = true;
+                btnAuction.disabled = true;
+            } else {
+                btnConvert.disabled = false;
+                btnAuction.disabled = false;
+                btnCombine.disabled = false; 
+                const canEvolve = (currentSelectedCount >= 10) && !NON_EVOLVING_GEN1.includes(currentSelectedId);
+                btnEvolve.disabled = !canEvolve;
+            }
+        }
+
+        function updateSelectModeButtons() {
+            const btnConvertMulti = document.getElementById('btn-convert-multi');
+            btnConvertMulti.disabled = selectedItems.size === 0; 
+        }
+
+        function handleCellClick(item, cellElement) {
+            if (isSelectMode) {
+                if (selectedItems.has(item.id)) {
+                    selectedItems.delete(item.id);
+                    cellElement.classList.remove('selected');
+                } else {
+                    selectedItems.add(item.id);
+                    cellElement.classList.add('selected');
+                }
+                if (selectedItems.size < inventoryData.length) isAllSelected = false;
+                updateSelectModeButtons();
+                updateLeftPanelData(item);
+            } else {
+                document.querySelectorAll('.grid-cell').forEach(c => c.classList.remove('active'));
+                cellElement.classList.add('active');
+                updateLeftPanelData(item);
+            }
+        }
+
+        function toggleSelectMode(mode) {
+            isSelectMode = mode;
+            const gridWrapper = document.getElementById('grid-wrapper');
+            const normalBtns = document.getElementById('normal-btns');
+            const selectBtns = document.getElementById('select-btns');
+
+            if (isSelectMode) {
+                gridWrapper.classList.add('select-mode');
+                normalBtns.style.display = 'none';
+                selectBtns.style.display = 'flex';
+                
+                const activeCell = document.querySelector('.grid-cell.active');
+                if (activeCell && !activeCell.classList.contains('empty')) {
+                    const id = parseInt(activeCell.dataset.id);
+                    selectedItems.add(id);
+                    activeCell.classList.add('selected');
+                    activeCell.classList.remove('active'); 
+                }
+                updateSelectModeButtons();
+            } else {
+                gridWrapper.classList.remove('select-mode');
+                normalBtns.style.display = 'flex';
+                selectBtns.style.display = 'none';
+                
+                clearLeftPanel();
+            }
+        }
+
+        function toggleSelectAll() {
+            const cells = document.querySelectorAll('.grid-cell:not(.empty)');
+            if (isAllSelected) {
+                cells.forEach(cell => {
+                    selectedItems.delete(parseInt(cell.dataset.id));
+                    cell.classList.remove('selected');
+                });
+                isAllSelected = false;
+            } else {
+                cells.forEach(cell => {
+                    selectedItems.add(parseInt(cell.dataset.id));
+                    cell.classList.add('selected');
+                });
+                isAllSelected = true;
+            }
+            updateSelectModeButtons();
+        }
+
+        async function updateLeftPanelData(item) {
+            const requestId = ++lastLeftPanelRequestId;
+            currentSelectedId = item.id;
+            currentSelectedCount = item.count;
+            updateNormalButtons(); 
+
+            document.getElementById('pokemon-no').innerText = `No.${String(item.id).padStart(3, '0')}`;
+            document.getElementById('pokemon-count').innerText = `보유: ${item.count}개`;
+            
+            const tierInfo = getPokemonTierInfo(item.id);
+            const tierEl = document.getElementById('pokemon-tier');
+            tierEl.innerText = tierInfo.tier;
+            tierEl.style.color = tierInfo.color;
+            document.getElementById('pokemon-price').innerText = tierInfo.price;
+
+            const spriteImg = document.getElementById('pokemon-sprite');
+            const animatedUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${item.id}.gif`;
+            const staticUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.id}.png`;
+            
+            spriteImg.src = animatedUrl;
+            spriteImg.onerror = () => { spriteImg.src = staticUrl; }; 
+            
+            document.getElementById('loading').style.display = 'block';
+
+            try {
+                const [speciesRes, pokeRes] = await Promise.all([
+                    fetch(`https://pokeapi.co/api/v2/pokemon-species/${item.id}`),
+                    fetch(`https://pokeapi.co/api/v2/pokemon/${item.id}`)
+                ]);
+                if (requestId !== lastLeftPanelRequestId) return;
+
+                const speciesData = await speciesRes.json();
+                const pokeData = await pokeRes.json();
+                
+                const koName = speciesData.names.find(n => n.language.name === 'ko').name;
+                document.getElementById('pokemon-name').innerText = koName;
+
+                const habitatName = speciesData.habitat ? speciesData.habitat.name : null;
+                document.getElementById('pokemon-habitat').innerText = habitatName ? (HABITAT_KO[habitatName] || habitatName) : '불명';
+
+                const badgesContainer = document.getElementById('type-badges');
+                badgesContainer.innerHTML = ''; 
+                pokeData.types.forEach(t => {
+                    const badge = document.createElement('div');
+                    badge.className = 'type-badge';
+                    badge.innerText = t.type.name.toUpperCase();
+                    badge.style.backgroundColor = TYPE_COLORS[t.type.name] || '#777';
+                    badgesContainer.appendChild(badge);
+                });
+
+                const statsContainer = document.getElementById('pokemon-stats');
+                statsContainer.innerHTML = pokeData.stats.map((statObj, idx) => `
+                    <div class="stat-item">
+                        <span class="stat-name">${STAT_NAMES_KO[idx]}</span>
+                        <span class="stat-val">${statObj.base_stat}</span>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                if (requestId !== lastLeftPanelRequestId) return;
+                console.error("API Error:", error);
+                document.getElementById('pokemon-name').innerText = '오류';
+                document.getElementById('pokemon-habitat').innerText = '오류';
+            } finally {
+                if (requestId !== lastLeftPanelRequestId) return;
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        renderGrid();
+        clearLeftPanel(); 
+
+    </script>
+</body>
 </html>
