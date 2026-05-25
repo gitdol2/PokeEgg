@@ -1,9 +1,10 @@
 :root {
     --dp-bg: #4888A8;
     --dp-border: #284860;
-    --dp-panel: #507890;
-    --dp-btn-main: #5888B0;
+    --dp-panel: #70B86F; /* 포켓몬 정보 컴포넌트 배경색 수정 */
+    --dp-btn-main: #5888B0; /* 진파랑 통일 */
     --dp-btn-pink: #D86060;
+    --inventory-theme: #7FD888; /* 인벤토리 탭 및 섹션 배경 테마 추가 */
 }
 
 * {
@@ -52,9 +53,11 @@ body {
     text-shadow: 1px 1px 0 #555 !important;
 }
 
+/* 인벤토리 탭 버튼 배경색 고증 수정 */
+.tab[data-tab="inventory"] { background-color: var(--inventory-theme); }
+
 .tab[data-tab="profile"] { background-color: #D86060; }
 .tab[data-tab="gacha"] { background-color: #50A8D8; }
-.tab[data-tab="inventory"] { background-color: #80D989; }
 .tab[data-tab="combine"] { background-color: #70B0B0; }
 .tab[data-tab="auction"] { background-color: #9880D8; }
 .tab[data-tab="archive"] { background-color: #D8B050; }
@@ -96,7 +99,7 @@ body {
 #game-container {
     width: 800px;
     height: 540px;
-    background-color: var(--dp-bg);
+    background-color: var(--inventory-theme); /* 인벤토리 섹션 컴포넌트 배경색 수정 */
     border: 2px solid var(--dp-border);
     border-radius: 0 8px 8px 8px;
     position: relative;
@@ -176,58 +179,131 @@ body {
     image-rendering: pixelated;
 }
 
+/* --- 왼쪽 패널 (상세 정보) --- */
 .info-plate {
-    background-color: var(--dp-panel);
-    border: 2px solid var(--dp-border);
-    border-radius: 8px;
-    padding: 8px 10px;
-    color: white;
-    text-shadow: 1px 1px 0 #555;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex-grow: 1;
+    background-color: var(--dp-panel); /* 고증 색상 #70B86F [cite: 86] */
+    border: 2px solid var(--dp-border); /* [cite: 31] */
+    border-radius: 8px; /* [cite: 31] */
+    padding: 10px 12px; /* 안쪽 여백 밸런스 유지 */
+    color: white; /* [cite: 31] */
+    text-shadow: 1px 1px 0 #555; /* [cite: 32] */
+    
+    /* 레이아웃 고정 및 수직 정렬 */
+    display: flex; /* [cite: 32] */
+    flex-direction: column; /* [cite: 32] */
+    height: 254px; /* 전체 상세 정보 패널 높이 고정 [cite: 96] */
+    min-height: 254px;
+    max-height: 254px;
 }
 
 .info-header {
+    display: flex; /* [cite: 33] */
+    justify-content: space-between; /* [cite: 33] */
+    align-items: center; /* [cite: 33] */
+    border-bottom: 2px solid rgba(255,255,255,0.4); /* [cite: 33] */
+    padding-bottom: 6px; /* [cite: 33] */
+    margin-bottom: 10px; /* 보유 가로줄과 등급 텍스트 사이 간격 [cite: 104] */
+    flex-shrink: 0; /* [cite: 97] */
+    height: 28px; /* 가로줄 포지션 박제 [cite: 97] */
+}
+
+/* 등급, 가격, 서식지 각각의 한 줄 줄바꿈 간격 제어 */
+.info-plate > div:not(.info-header):not(.stats-grid) {
+    margin-bottom: 6px; /* 텍스트 라인 간 자모음 여백 확보 [cite: 120] */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* 타입 배지가 들어가는 컨테이너 공간 고정 */
+.type-container { 
+    display: flex; /* [cite: 34] */
+    gap: 4px; /* [cite: 34] */
+    min-height: 20px; /* [cite: 98] */
+    align-items: center;
+    margin-bottom: 4px; /* 타입 배지 하단 여백 */
+}
+
+.type-badge {
+    border: 1px solid white; /* [cite: 34] */
+    border-radius: 4px; /* [cite: 34] */
+    padding: 2px 8px; /* [cite: 34] */
+    color: white; /* [cite: 35] */
+    font-size: 12px; /* [cite: 35] */
+    text-shadow: 1px 1px 0 #333; /* [cite: 35] */
+    box-shadow: 1px 1px 0 #555; /* [cite: 35] */
+}
+
+.tier-price-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid rgba(255,255,255,0.4);
-    padding-bottom: 6px;
-}
-
-.type-container { display: flex; gap: 4px; }
-
-.type-badge {
-    border: 1px solid white;
-    border-radius: 4px;
-    padding: 2px 8px;
-    color: white;
-    font-size: 12px;
-    text-shadow: 1px 1px 0 #333;
-    box-shadow: 1px 1px 0 #555;
-}
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px 10px;
+    margin-bottom: 6px;
     font-size: 13px;
-    border-radius: 8px;
 }
 
-.stat-item {
+.habitat-row {
     display: flex;
-    justify-content: space-between;
-    background: rgba(0,0,0,0.15);
-    padding: 3px 6px;
-    border-radius: 6px;
-    border: 1px solid rgba(255,255,255,0.2);
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 6px;
+    font-size: 13px;
+}
+
+.desc-row {
+    font-size: 11px;
+    line-height: 1.4;
+    color: #E8E8E8;
+    margin-bottom: 6px;
+    min-height: 32px;
+    max-height: 48px;
+    overflow-y: auto;
+    word-break: keep-all;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+}
+
+/* 능력치 그리드 영역 */
+.stats-grid {
+    display: grid; /* [cite: 36] */
+    grid-template-columns: 1fr 1fr; /* [cite: 36] */
+    grid-auto-rows: max-content; /* 세로 길이를 텍스트 크기에 맞춤 [cite: 111] */
+    gap: 4px 10px; /* [cite: 36] */
+    font-size: 13px; /* [cite: 36] */
+    border-radius: 8px; /* [cite: 36] */
+    
+    /* 💡 픽스 포인트: 밑바닥으로 밀어내던 margin-top: auto를 걷어내고 서식지 바로 아래 위치하도록 변경 */
+    margin-top: 4px; 
+    flex-grow: 1;
+    overflow-y: auto; /* [cite: 111] */
+}
+
+/* 개별 능력치 박스 (HP, 공격 등) */
+.stat-item {
+    display: flex; /* [cite: 37] */
+    justify-content: space-between; /* [cite: 37] */
+    align-items: center; /* 텍스트 세로 중앙 정렬 [cite: 112] */
+    background: rgba(0, 0, 0, 0.15); /* [cite: 37] */
+    padding: 4px 8px; /* 텍스트 폰트에 맞춘 슬림한 여백 [cite: 112] */
+    border-radius: 6px; /* [cite: 37] */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* [cite: 37] */
+    height: 24px; /* 박스 세로 높이 슬림화 고정 [cite: 112] */
 }
 
 .stat-name { color: #FFD848; }
 .stat-val { font-weight: normal; letter-spacing: 1px; }
+
+/* --- 서식지 글씨 스타일 (배지 폐기, 순수 텍스트 보정) --- */
+#pokemon-habitat {
+    font-weight: normal;
+    display: inline;
+    padding: 0;
+    background: none !important; /* 배경색 완전 제거 */
+    border: none !important;     /* 테두리 제거 */
+    box-shadow: none !important;  /* 그림자 제거 */
+    
+    /* 💡 가독성 핵심: 글씨 뒤에 짙은 도트 그림자를 깔아 배경(#70B86F)과 텍스트를 칼같이 분리 */
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.7) !important; 
+}
 
 /* --- 오른쪽 패널 --- */
 #right-panel {
@@ -241,10 +317,10 @@ body {
 #currency-bar {
     display: flex;
     gap: 12px;
-    background-color: #78B0C0;
+    background-color: #89D4F2; /* 컴포넌트 그룹 박스 배경 */
     border: 2px solid var(--dp-border);
     border-radius: 8px;
-    padding: 6px 8px;
+    padding: 6px 12px; /* 좌우 패딩 증가 */
     box-shadow: inset 1px 1px 0 rgba(255,255,255,0.3);
     align-items: center;
     color: white;
@@ -273,23 +349,24 @@ body {
 #filter-bar {
     display: flex;
     gap: 6px;
-    background-color: #78B0C0;
+    background-color: #89D4F2; /* 컴포넌트 그룹 박스 배경 */
     border: 2px solid var(--dp-border);
     border-radius: 8px;
     padding: 4px;
     box-shadow: inset 1px 1px 0 rgba(255,255,255,0.3);
+    position: relative; /* 모달 위치 기준 */
 }
 
 .filter-btn, #sort-btn {
-    border: 2px solid var(--dp-border);
+    background-color: #7AAFF3; /* 버튼 배경 */
+    border: 2px solid #5481D4; /* 버튼 테두리 */
     border-radius: 4px;
     font-size: 13px;
     padding: 4px 8px;
     cursor: pointer;
     box-shadow: inset -1px -1px 0 rgba(0,0,0,0.2);
-    background-color: var(--dp-btn-main);
     color: white !important;
-    text-shadow: 1px 1px 0 #555 !important;
+    text-shadow: 1px 1px 0 #333 !important;
 }
 
 .filter-btn:hover, #sort-btn:hover { filter: brightness(1.1); }
@@ -333,7 +410,7 @@ body {
 }
 
 .grid-cell.empty {
-    border: 2px solid rgba(160, 176, 192, 0.4);
+    border: 2px solid transparent;
     cursor: default;
 }
 
@@ -367,8 +444,7 @@ body {
     text-shadow: none !important;
 }
 
-.select-checkbox {
-    display: none;
+.select-checkbox, .filter-checkbox {
     position: absolute;
     top: 2px;
     right: 2px;
@@ -379,23 +455,62 @@ body {
     border-radius: 3px;
     z-index: 4;
     color: transparent;
+    display: flex;
     align-items: center;
     justify-content: center;
     padding-bottom: 2px;
 }
 
+.select-checkbox { display: none; }
 .select-mode .grid-cell:not(.empty) .select-checkbox { display: flex; }
 
-.grid-cell.selected .select-checkbox {
+.grid-cell.selected .select-checkbox, .filter-item.active .filter-checkbox {
     color: #48A4E0;
-    border-color: #48A4E0;
+    /* 테두리 색상 변경 방지 */
 }
 
-.select-checkbox::after {
+.select-checkbox::after, .filter-checkbox::after {
     content: '✔';
     font-size: 12px;
     font-weight: normal;
 }
+
+/* --- 필터 모달 --- */
+.filter-modal {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #F8F8F8;
+    border: 2px solid var(--dp-border);
+    border-radius: 4px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    z-index: 100;
+    display: none;
+    min-width: 120px;
+    padding: 4px;
+}
+
+.filter-modal.active { display: block; }
+
+.filter-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #333;
+    position: relative;
+}
+
+.filter-item:hover { background-color: #EEE; }
+
+.filter-item .filter-checkbox {
+    position: static;
+    flex-shrink: 0;
+}
+
+.filter-item.active .filter-checkbox { color: #48A4E0; }
 
 /* --- 하단 액션 버튼 --- */
 #action-bar {
@@ -413,15 +528,16 @@ body {
     flex-wrap: wrap;
 }
 
+/* 선택, 진화 버튼을 포함한 모든 기본 버튼 초록 계열 통일 */
 .dp-btn {
-    background-color: var(--dp-btn-main);
-    border: 2px solid var(--dp-border);
+    background-color: #7AAFF3; /* 버튼 배경 */
+    border: 2px solid #5481D4; /* 버튼 테두리 */
     border-radius: 4px;
     color: white;
     font-size: 13px;
     padding: 6px 12px;
     cursor: pointer;
-    text-shadow: 1px 1px 0 #555;
+    text-shadow: 1px 1px 0 #333;
     box-shadow: inset -2px -2px 0 rgba(0,0,0,0.15);
     white-space: nowrap;
 }
@@ -436,9 +552,6 @@ body {
     text-shadow: none !important;
     box-shadow: inset -2px -2px 0 rgba(0,0,0,0.1);
 }
-
-.dp-btn.pink { background-color: var(--dp-btn-pink); }
-.dp-btn.green { background-color: #78C888; }
 
 .grid-wrapper::-webkit-scrollbar { width: 16px; }
 .grid-wrapper::-webkit-scrollbar-track {

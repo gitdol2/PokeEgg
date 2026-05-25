@@ -35,12 +35,18 @@
                 
                 <div class="info-plate">
                     <div class="info-header">
-                        <span id="pokemon-count">보유: 0개</span>
+                        <span id="pokemon-count">보유: 0마리</span>
                         <div id="type-badges" class="type-container"></div>
                     </div>
-                    <div>등급: <span id="pokemon-tier">-</span></div>
-                    <div>가격: <span id="pokemon-price">0</span>pt</div>
-                    <div>서식지: <span id="pokemon-habitat">-</span></div>
+                    <div class="tier-price-row">
+                        <div>등급: <span id="pokemon-tier">-</span></div>
+                        <div>가격: <span id="pokemon-price">0</span> pt</div>
+                    </div>
+                    <div class="habitat-row">
+                        <span>지닌물건: 없음</span>
+                        <span style="margin-left: auto;">서식지: <span id="pokemon-habitat">-</span></span>
+                    </div>
+                    <div class="desc-row" id="pokemon-description"></div>
                     <div id="pokemon-stats" class="stats-grid"></div>
                 </div>
             </div>
@@ -49,6 +55,9 @@
                 
                 <div id="currency-bar">
                     <div class="currency-item">
+                        <span id="points-display" class="currency-value">0 pt</span>
+                    </div>
+                    <div class="currency-item">
                         <img id="silver-coin-icon" alt="silver">
                         <span id="silver-coin-display" class="currency-value">0</span>
                     </div>
@@ -56,20 +65,42 @@
                         <img id="gold-coin-icon" alt="gold">
                         <span id="gold-coin-display" class="currency-value">0</span>
                     </div>
-                    <div class="currency-item">
-                        <img id="pokemon-ball-icon" alt="ball">
-                        <span id="points-display" class="currency-value">0 pt</span>
-                    </div>
                     <div class="currency-item" style="margin-left: auto;">
-                        보유 포켓몬: <span id="pokemon-count-display" class="currency-value">0</span>
+                        <img id="pokemon-ball-icon" alt="ball">
+                        보유 포켓몬: <span id="pokemon-count-total-display" class="currency-value">0</span>
                     </div>
                 </div>
 
                 <div id="filter-bar">
-                    <button class="filter-btn">세대 ▾</button>
-                    <button class="filter-btn">등급 ▾</button>
-                    <button class="filter-btn">타입 ▾</button>
-                    <button class="filter-btn">서식지 ▾</button>
+                    <div style="position: relative;">
+                        <button class="filter-btn" onclick="toggleModal('gen-modal')">세대 ▾</button>
+                        <div id="gen-modal" class="filter-modal">
+                            <div class="filter-item active" onclick="toggleFilter(this, 'gen', 'all')">
+                                <div class="filter-checkbox"></div> 전체
+                            </div>
+                            <div class="filter-item" onclick="toggleFilter(this, 'gen', '1')">
+                                <div class="filter-checkbox"></div> 1세대
+                            </div>
+                        </div>
+                    </div>
+                    <div style="position: relative;">
+                        <button class="filter-btn" onclick="toggleModal('tier-modal')">등급 ▾</button>
+                        <div id="tier-modal" class="filter-modal">
+                            <!-- JS에서 동적 생성 예정 -->
+                        </div>
+                    </div>
+                    <div style="position: relative;">
+                        <button class="filter-btn" onclick="toggleModal('type-modal')">타입 ▾</button>
+                        <div id="type-modal" class="filter-modal">
+                            <!-- JS에서 동적 생성 예정 -->
+                        </div>
+                    </div>
+                    <div style="position: relative;">
+                        <button class="filter-btn" onclick="toggleModal('habitat-modal')">서식지 ▾</button>
+                        <div id="habitat-modal" class="filter-modal">
+                            <!-- JS에서 동적 생성 예정 -->
+                        </div>
+                    </div>
                     <button id="sort-btn" onclick="toggleSort()">
                         <span class="sort-arrow">▲</span> 도감번호
                     </button>
@@ -83,7 +114,6 @@
                     <div id="normal-btns" class="action-group">
                         <button class="dp-btn pink" onclick="toggleSelectMode(true)">선택</button>
                         <button id="btn-evolve" class="dp-btn green" disabled>진화</button>
-                        <button id="btn-combine" class="dp-btn" disabled>조합</button>
                         <button id="btn-convert" class="dp-btn" disabled>포인트 변환</button>
                         <button id="btn-auction" class="dp-btn" disabled>경매장 등록</button>
                     </div>
