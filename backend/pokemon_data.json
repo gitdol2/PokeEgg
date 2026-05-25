@@ -1,0 +1,1059 @@
+{
+  "1": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": 2,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "2": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": 3,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "3": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "4": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": 5,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "5": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": 6,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "6": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "7": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": 8,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "8": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": 9,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "9": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "10": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 11,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "11": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 12,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "12": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "13": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 14,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "14": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 15,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "15": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "16": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 17,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "17": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 18,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "18": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "19": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 20,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "20": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "21": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 22,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "22": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "23": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 24,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "24": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "25": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": 26,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "26": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "27": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 28,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "28": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "29": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 30,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "30": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 31,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "31": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "32": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 33,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "33": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 34,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "34": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "35": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": 36,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "36": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "37": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": 38,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "38": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "39": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": 40,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "40": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "41": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 42,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "42": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "43": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 44,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "44": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 45,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "45": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "46": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 47,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "47": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "48": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 49,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "49": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "50": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 51,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "51": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "52": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 53,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "53": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "54": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 55,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "55": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "56": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 57,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "57": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "58": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": 59,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "59": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "60": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 61,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "61": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 62,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "62": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "63": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 64,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "64": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 65,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "65": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "66": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 67,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "67": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 68,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "68": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "69": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 70,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "70": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 71,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "71": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "72": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 73,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "73": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "74": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 75,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "75": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 76,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "76": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "77": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 78,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "78": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "79": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 80,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "80": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "81": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 82,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "82": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "83": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "84": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 85,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "85": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "86": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 87,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "87": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "88": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 89,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "89": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "90": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 91,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "91": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "92": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 93,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "93": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 94,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "94": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "95": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "96": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 97,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "97": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "98": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 99,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "99": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "100": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 101,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "101": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "102": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 103,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "103": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "104": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 105,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "105": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "106": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "107": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "108": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "109": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 110,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "110": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "111": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 112,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "112": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "113": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "114": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "115": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "116": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 117,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "117": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "118": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 119,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "119": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "120": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 121,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "121": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "122": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "123": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "124": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "125": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "126": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "127": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "128": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "129": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 130,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "130": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "131": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "132": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "133": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": 134,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "134": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "135": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "136": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "137": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "138": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 139,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "139": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "140": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 141,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "141": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "142": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "143": {
+    "tier": "UNCOMMON",
+    "price": 20,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "144": {
+    "tier": "LEGENDARY",
+    "price": 1000,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "145": {
+    "tier": "LEGENDARY",
+    "price": 1000,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "146": {
+    "tier": "LEGENDARY",
+    "price": 1000,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "147": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 148,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "148": {
+    "tier": "COMMON",
+    "price": 10,
+    "evolves_to": 149,
+    "can_evolve": true,
+    "held_item": null
+  },
+  "149": {
+    "tier": "RARE",
+    "price": 50,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "150": {
+    "tier": "LEGENDARY",
+    "price": 1000,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  },
+  "151": {
+    "tier": "LEGENDARY",
+    "price": 1000,
+    "evolves_to": null,
+    "can_evolve": false,
+    "held_item": null
+  }
+}
